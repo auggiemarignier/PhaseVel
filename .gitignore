@@ -1,0 +1,8 @@
+junk
+obj
+bin
+outputs
+inputs
+**/.vscode
+**/__pycache__
+**/.pytest_cache
