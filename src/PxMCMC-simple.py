@@ -14,10 +14,8 @@ class Checkerboard:
         self.Nside = Nside
         self.step = step
 
-        self.fill_board()
-
     def fill_board(self):
-        self.board = np.zeros(hp.nside2npix(self.Nside))
+        board = np.zeros(hp.nside2npix(self.Nside))
         i=0
         for lat in self.lats:
             for long in self.longs:  
@@ -35,10 +33,11 @@ class Checkerboard:
                             ln -= 360
                         pixels.append(hp.ang2pix(self.Nside,ln,lt,lonlat=True))
                 if i%2 == 0:
-                    self.board[pixels] = 1
+                    board[pixels] = 1
+        return board
 
-    def plot_board(self):
-        hp.mollview(self.board,cmap=cm.jet)
+    def plot_board(self,board,min=0,max=1):
+        hp.mollview(board,cmap=cm.jet,min=min,max=max)
         plt.show()
                 
 
@@ -67,6 +66,33 @@ class Simple(PxMCMC):
 
 if __name__ == '__main__':
     board = Checkerboard()
-    board.board += np.random.normal(0,0.1,board.board.shape)
-    board.plot_board()
-    
+    clean = board.fill_board()
+    noisy = clean + np.random.normal(0,0.1,clean.shape)
+
+    vmin = np.min(noisy)
+    vmax = np.max(noisy)
+    board.plot_board(clean,min=vmin,max=vmax)
+    board.plot_board(noisy,min=vmin,max=vmax)
+
+    B = 1.5
+    L = 10
+    dirs = 1
+    spin=0
+    J_min = 2
+    lmda=3e-5
+    delta=1e-5
+    mu=1e4
+    sig_d=0.6718
+    sig_m=1
+    nsamples = int(1e6)
+    nburn = int(1e3)
+    ngap = int(1e2)
+    hard = False
+
+    print(' Setting parameters...')
+    params = Params(L,B,dirs,spin,J_min,lmda,delta,mu,sig_d,sig_m,nsamples,nburn,ngap,hard)
+
+    algo='MYULA'
+    print(f' Setting up {algo}...')
+    mcmc = Simple(algo,data,Ylmavs,p_weights,params)
+    print(f' Running {algo}...')
