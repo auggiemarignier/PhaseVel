@@ -135,7 +135,7 @@ class PxMCMC:
         wav_lm_hp = np.zeros([(self.params.L+1)*(self.params.L+2)//2,self.params.nscales],dtype=np.complex)
         for j in range(self.params.nscales):
             wav_lm_hp[:,j] = pys2let.lm2lm_hp(np.ascontiguousarray(wav_lm[:,j]),self.params.L+1)
-        clm_hp = pys2let.synthesis_axisym_lm_wav(wav_lm,scal_lm,self.params.B,self.params.L+1,self.params.J_min)
+        clm_hp = pys2let.synthesis_axisym_lm_wav(wav_lm_hp,scal_lm_hp,self.params.B,self.params.L+1,self.params.J_min)
         clm = np.real(pys2let.lm_hp2lm(clm_hp,self.params.L+1)) # check complexity
         preds = np.matmul(clm,self.Ylmavs.T)
         return preds
