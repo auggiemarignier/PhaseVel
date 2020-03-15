@@ -60,8 +60,6 @@ def test_proxf():
     X = np.array([-2-2j,-1,1j,0,2,3+1j,3])
     expected = np.array([-2/np.sqrt(8)*(1+1j)*(np.sqrt(8)-1),0,0,0,1,(3+1j)*(np.sqrt(10)-1)/np.sqrt(10),2])
     proxf = mcmc.calc_proxf(X)
-    print(expected)
-    print(proxf)
     assert np.allclose(expected,proxf)
 
 def test_gradg():
