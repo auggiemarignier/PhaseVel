@@ -1,4 +1,5 @@
 import numpy as np
+import healpy as hp
 
 
 def flatten_mlm(wav_lm,scal_lm):
@@ -42,3 +43,35 @@ def hard(X,T=0.1):
     thresh_val = X_srt[-thresh_ind]
     X[abs(X)<thresh_val]=0
     return X
+
+def pixels_in_range(lat, lon, lat_range, lon_range, Nside=32):
+    pixels = []
+    for lt in np.arange(lat-lat_range/2,lat+lat_range/2):
+        if lt < -90:
+            lt = -90
+        if lt > 90:
+            lt =90
+        for ln in np.arange(lon-lon_range/2,lon+lon_range/2):
+            if ln < -180:
+                ln += 360
+            if ln > 180:
+                ln -= 360
+            pixels.append(hp.ang2pix(Nside,ln,lt,lonlat=True))
+    return pixels
+
+def pixelise(signal,Nside,longs,lats):
+    Npix   = hp.nside2npix(Nside)
+    pixnum = hp.ang2pix(Nside, longs, lats, lonlat=True)
+    amap   = np.zeros(Npix)
+    count  = np.zeros(Npix)
+    nsample = len(signal)
+    for i in range(nsample):
+        pix = pixnum[i]
+        amap[pix] += signal[i]
+        count[pix]+= 1.
+    for i in range(Npix):
+        if count[i]>0:
+            amap[i] = amap[i]/count[i]
+        else:
+            amap[i] = hp.UNSEEN
+    return amap
