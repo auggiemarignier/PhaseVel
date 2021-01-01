@@ -1,37 +1,3 @@
-c
-c MINEOS version 1.0 by Guy Masters, John Woodhouse, and Freeman Gilbert
-c
-c This program is free software; you can redistribute it and/or modify
-c it under the terms of the GNU General Public License as published by
-c the Free Software Foundation; either version 2 of the License, or
-c (at your option) any later version.
-c
-c This program is distributed in the hope that it will be useful,
-c but WITHOUT ANY WARRANTY; without even the implied warranty of
-c MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-c GNU General Public License for more details.
-c
-c You should have received a copy of the GNU General Public License
-c along with this program; if not, write to the Free Software
-c Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
-cUSA
-c
-c***************************************************************************
-c
-c  converts eigenfunction files (output from minos_bran) into
-c  .eigen relation containing only info about the upper most dmax km 
-c  ( 0 < dmax < Rn), where, RO is radius of the free surface in km.
-c  This version works for all modes: spheroidal, toroidal, and radial.
-c   
-c**************************************************************************
-c     designed:
-c     changes:       15.08.91 spheroidal and toroidal modes 
-c                             parameter mnl for max no. layers in model
-c                             variable  irecl for reclength of eigfun
-cfile
-c     changes:       19.08.91 subroutines    for sph, rad and tor modes 
-c     latest change: 09.01.06 output is .eigen relation.
-c**************************************************************************
       subroutine eigcon_subs(motion_number,model_path,
      &str7,modelin,str2,motion,str3,str4,str8)
       implicit none
@@ -74,52 +40,16 @@ c ---
       con=pi*bigg
       nstart = 0
 
-c      write(*,*) "eigcon model_path ",model_path
-c      write(*,*) "eigcon str2 ",str2
-c      write(*,*) "eigcon motion ",motion
-c      write(*,*) "eigcon motion_number ",motion_number
-c      write(*,*) "eigcon modelin ",modelin
-c      write(*,*) "eigcon str3 ",str3
-c      write(*,*) "eigcon str4 ",str4
-c      write(*,*) "eigcon str7 ",str7
-c      write(*,*) "eigcon str8 ",str8
-c
-c
-c read control parameters from stdin
-c
-c  read jcom : flag to indicate mode type
-c      write(*,*) '============= Program eigcon ===================='
-c      print*,' spheroidals (3) or toroidals (2) or radial (1) or'
-c      print*,' inner core toroidals (4) modes'
       read(motion_number,*) jcom
 c read model file name
-c      print*,' enter name of model file'
       read(model_path,'(a256)')fmodel
-c      write(*,*) fmodel(1:lnblnk(fmodel))
 c read max depth for eigenvectors
-c      print *,'enter max depth [km] : '
       read(str7,*) dmax
-c      write(*,*) dmax
 c read minos_bran output text file
-c      write(*,*) ' enter name of minos_bran output text file'
       read(str3,'(a256)') fflatin
-c      write(*,*) fflatin(1:lnblnk(fflatin))
 c read minos_bran output binary unformatted file
-c      write(*,*) ' minos_bran output binary unformatted file name'
       read(str4,'(a256)') fbinin
-c      write(*,*) fbinin(1:lnblnk(fbinin))
-c read dbase_name. There might be two form of input string:
-c "path/dbase_name"  or "dbase_name", where path is relative or absolute
-c path to existing directory. Under path directory or working
-c directory (no character(s) "/" in input string) it suppose to be
-created 
-c db relation file dbase_name.eigen, directory dbase_name.eigen.dat, and
-c under dbase_name.eigen.dat binary data file eigen.
-c      print*,
-c     * ' enter path/dbase_name or dbase_name to store eigenfunctions:'
       read(str8,'(a256)')fout
-c      write(*,*) fout(1:lnblnk(fout))
-c      write(*,*) '===================================================='
 c
 c  read in radial knots from model
 c
@@ -184,7 +114,6 @@ c cut radius knots lower than max depth
          buf(1,j)=r(i)
       enddo
       nrad=j
-c      write(*,*) 'eigcon: n,nstart,nrad = ',n,nstart,nrad
 c open minos_bran plane output file and search mode part
       open(7,file=fflatin,form='formatted',status='old')
   1   read(7,'(a)',end=9) str
