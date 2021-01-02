@@ -30,51 +30,47 @@
       close(3)
       end subroutine 
      
-      subroutine wtable(iout,ioeig,ifreq)
+      subroutine wtable(iout,ioeig,ifreq,str5,motion_number,str6)
 c*** makes up table of frequencies ***
       implicit real*8(a-h,o-z)
-      common/bits/pi,rn,vn,wn,w,wsq,wray,qinv,cg,wgrav,tref,fct,eps,fl,
-      +  fl1,fl2,fl3,sfl3,jcom,nord,l,kg,kount,knsw,ifanis,iback
+      character*1  motion_number
+      character*20 str5,str6
+      common/bits/pi,rn,vn,wn,w,wsq,wray,qinv,cg,wgrav,tref,fceps,fl,
+     +  fl1,fl2,fl3,sfl3,jcom,nord,l,kg,kount,knsw,ifanis,iback
       common/shanks/b(46),c(10),dx,step(8),stepf,maxo,in
       common/mtab/we(2),de(2),ke(2),wtry,bm
       dimension wt(2)
       data inss/5/
       cmhz=pi/500.d0
-      stepf=1.d0        
-      print *,'enter eps and wgrav'
-      read(*,*) eps,wgrav
+      stepf=1.d0
+      read(str5,*)
 c MB added one line below
-      print *,eps,wgrav
       eps=max(eps,1.d-12)
       eps1=eps
       eps2=eps
       wgrav=wgrav*cmhz
       write(iout,100) eps,eps1,wgrav
-  100 format(/,'integration precision =',g12.4,'  root precision =',
-      +   g12.4,'  gravity cut off =',g12.4,' rad/s',///,6x,'mode',
-      +   8x,'phs vel',7x,'w(mhz)',10x,'t(secs)',6x,'grp vel(km/s)',
-      +   8x,'q',13x,'raylquo',/)
+  100 format(/,'integration precision =',g12.4,'  root precisio=',
+     +   g12.4,'  gravity cut off =',g12.4,' rad/s',///,6'mode',
+     +   8x,'phs vel',7x,'w(mhz)',10x,'t(secs)',6x,'grp vel(km/',
+     +   8x,'q',13x,'raylquo',/)
       call steps(eps)
-      print *,'enter jcom (1=rad;2=tor;3=sph;4=ictor)'
-      read(*,*) jcom
+      read(motion_number,*) jcom
 c MB added one line below
-      print *,jcom
       if(jcom.lt.1.or.jcom.gt.4) jcom=3
-      print *,'enter lmin,lmax,wmin,wmax,nmin,nmax'
-      read(*,*) lmin,lmax,wmin,wmax,normin,normax
+      read(str6,*) lmin,lmax,wmin,wmax,normin,normax
 c MB added one line below
-      print *,lmin,lmax,wmin,wmax,normin,normax
       wmin=max(wmin,0.1d0)
       wmin=wmin*cmhz
       wmax=wmax*cmhz
       if(lmin.le.0) lmin=1
       if(jcom.eq.1) then
-      lmin=0
-      lmax=0
+        lmin=0
+        lmax=0
       end if
       normin=max(normin,0)
       normax=max(normax,normin)
-      ncall = 0
+        ncall = 0
       do 50 nor=normin,normax
       wt(1)=wmin
       wt(2)=wmax
@@ -86,8 +82,8 @@ c MB added one line below
       nup=nor
       ndn=nor-1
       if(l.eq.1) then
-      nup=ndn
-      ndn=ndn-1
+        nup=ndn
+        ndn=ndn-1
       end if
       knsw=1
       maxo=inss
@@ -103,9 +99,9 @@ c MB added one line below
       if(ke(1).gt.ndn) goto 10
       call detqn(we(2),ke(2),de(2),0)
       if(ke(2).lt.nup) then
-        we(2)=wt(2)
-        call detqn(we(2),ke(2),de(2),0)
-        if(ke(2).lt.nup) goto 50
+         we(2)=wt(2)
+         call detqn(we(2),ke(2),de(2),0)
+         if(ke(2).lt.nup) goto 50
       end if
 c*** bracket this mode ***
       wx=0.5d0*(we(1)+we(2))
@@ -115,21 +111,21 @@ c*** bracket this mode ***
       if(ktry.gt.50) goto 10
       call detqn(wx,kx,dx,0)
       if(kx.le.ndn) then
-      we(1)=wx
-      ke(1)=kx
-      de(1)=dx
+        we(1)=wx
+        ke(1)=kx
+        de(1)=dx
       else
-      we(2)=wx
-      ke(2)=kx
-      de(2)=dx
+        we(2)=wx
+        ke(2)=kx
+        de(2)=dx
       end if
       wx=0.5d0*(we(1)+we(2))
       goto 15
 c*** find roots ***
    40 knsw=0
       maxo=8
-c		added argument for number of times called (mhr)
-      ncall = ncall + 1
+c               added argument for number of times called (mhr)
+        ncall = ncall + 1
       call rotspl(eps1,wt,iout,ioeig,ifreq,ncall)
    10 continue
    50 continue
