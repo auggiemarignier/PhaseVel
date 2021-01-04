@@ -42,7 +42,7 @@
       call eigcon(jcom,model_file,out_plain_file,out_bin_file,
      1 dbase_name,6371.0)
 
-      eigenasc=out_bin_file // ".txt"
+      eigenasc=trim(out_bin_file)//"asc"
       call eigen2asc(nmin,nmax,lmin,lmax,dbase_name,eigenasc)
 
       end program

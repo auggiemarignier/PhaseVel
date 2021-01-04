@@ -1,4 +1,4 @@
-      subroutine eigen2asc(nmine,nmaxe,lmine,lmaxe,fin,eigenasc)
+      subroutine eigen2asc(nmine,nmaxe,lmine,lmaxe,fin,fdir)
       implicit none
       integer*4 mk
       parameter (mk=3000)
@@ -27,7 +27,6 @@ c --- other variables
       integer*4   nn,ll,lll,i,j
       integer*4   in,nmine,nmaxe,lmine,lmaxe,lnblnk
       logical tf
-      character*256 eigenasc
 
       nmine=0
       nmaxe=0
@@ -36,9 +35,9 @@ c --- other variables
       pi2 = atan(1.0)*8.0
       in = 0
 c --- if file fdir doesnt exist create it
-      inquire(file=eigenasc,exist=tf)
+      inquire(file=fdir,exist=tf)
       if(.not.tf) then
-          write(cmd,'("mkdir -p ",a247)') eigenasc
+          write(cmd,'("mkdir -p ",a247)') fdir
           call system(cmd)
       endif
       nrecl = 2000
