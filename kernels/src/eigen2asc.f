@@ -27,13 +27,9 @@ c --- other variables
       integer*4   nn,ll,lll,i,j
       integer*4   in,nmine,nmaxe,lmine,lmaxe,lnblnk
       logical tf
-
-      nmine=0
-      nmaxe=0
-      lmine=0
-      lmaxe=300
+ 
       pi2 = atan(1.0)*8.0
-      in = 0
+      in = 1
 c --- if file fdir doesnt exist create it
       inquire(file=fdir,exist=tf)
       if(.not.tf) then
