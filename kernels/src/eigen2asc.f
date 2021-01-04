@@ -1,4 +1,4 @@
-      subroutine eigen2asc(fin,eigenasc,Amp,W,S,eigenvalue)
+      subroutine eigen2asc(nmine,nmaxe,lmine,lmaxe,fin,eigenasc)
       implicit none
       integer*4 mk
       parameter (mk=3000)
@@ -27,11 +27,7 @@ c --- other variables
       integer*4   nn,ll,lll,i,j
       integer*4   in,nmine,nmaxe,lmine,lmaxe,lnblnk
       logical tf
-      real*8      Amp
-      real*8      W(299),S(299),Amp0(299)
-      integer*4   q
       character*256 eigenasc
-      character*1 eigenvalue
 
       nmine=0
       nmaxe=0
