@@ -24,6 +24,7 @@ add_executable(${PROJECT_NAME}
                 src/kernels.f
                 src/minos_bran.f
                 src/eigcon.f
+                src/eigen2asc.f
                 $<TARGET_OBJECTS:mineos_fdb>
                 $<TARGET_OBJECTS:mineos_time>)
 

@@ -2,7 +2,8 @@
 
       implicit real*8(a-h,o-z)
 
-      character*256  model_file,out_plain_file,out_bin_file,dbase_name
+      character*256  model_file,out_plain_file,out_bin_file,dbase_name,
+     1 eigenasc 
       common/bits/pi,rn,vn,wn,w,wsq,wray,qinv,cg,wgrav,tref,fct,eps,fl,
      +  fl1,fl2,fl3,sfl3,jcom,nord,l,kg,kount,knsw,ifanis,iback
 
@@ -40,5 +41,8 @@
      1 //"kernels/outputs/database"
       call eigcon(jcom,model_file,out_plain_file,out_bin_file,
      1 dbase_name,6371.0)
+
+      eigenasc=out_bin_file // ".txt"
+      call eigen2asc(nmin,nmax,lmin,lmax,dbase_name,eigenasc)
 
       end program
