@@ -1,5 +1,5 @@
-      subroutine eigcon_subs(motion_number,model_path,
-     &str7,modelin,str2,motion,str3,str4,str8)
+      subroutine eigcon_subs(imod,
+     &dmax,modelin,str2,motion,str3,str4,str8)
       implicit none
       integer*4 mk
       parameter (mk=350)
@@ -13,7 +13,7 @@ c --- other variables
       integer*4 i,ieig,idat,iin,ifanis,ifdeck,k,j,jj,jcom,l,ll,lll
       integer*4 n,nic,noc,nreg,nn,nlay,nstart,nrad,ni,nrecl
       integer*4 lnblnk,ierr,iflag,ititle(20)
-      character*20 str,str7
+      character*20 str
       character*64 dir
       character*1 typeo
       character*256 fmodel,fflatin,fbinin,fout,fin
@@ -21,7 +21,6 @@ c --- other variables
       character*100 modelin
       character*20  str2
       character*256 str3,str4,str8
-      character*1   motion_number
       character*3    motion
 c--- my added declarations below
       integer*4 q
@@ -32,6 +31,8 @@ c--- my added declarations below
       logical     ttf
       character*256 fdir,cmd
 c --
+      common/bits/pi,rn,vn,wn,w,wsq,wray,qinv,cg,wgrav,tref,fct,eps,fl,
+     +  fl1,fl2,fl3,sfl3,jcom,nord,l,kg,kount,knsw,ifanis,iback
       common/prm/ nn,ll,ww,qq,rn,vn,accn
       equivalence (param(1),nn)
 c ---
@@ -40,11 +41,8 @@ c ---
       con=pi*bigg
       nstart = 0
 
-      read(motion_number,*) jcom
 c read model file name
       read(model_path,'(a256)')fmodel
-c read max depth for eigenvectors
-      read(str7,*) dmax
 c read minos_bran output text file
       read(str3,'(a256)') fflatin
 c read minos_bran output binary unformatted file
