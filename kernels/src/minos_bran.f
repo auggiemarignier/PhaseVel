@@ -13,9 +13,6 @@
       common/bits/pi,rn,vn,wn,w,wsq,wray,qinv,cg,wgrav,tref,fct,eps,fl,
      +  fl1,fl2,fl3,sfl3,jcom,nord,l,kg,kount,knsw,ifanis,iback
 
-      jcom=3
-      eps=1e-7
-      wgrav=10
       read(model_path,*)
       open(7,file=model_path,status='old',form='formatted',iostat=iret)
       read(str3,*)
