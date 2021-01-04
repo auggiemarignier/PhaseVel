@@ -26,8 +26,15 @@
      1 //"kernels/outputs/eigenfunctions"
 
       write(*,*) model_file
-      call minos_start(model_file,out_plain_file,out_bin_file,
-     1 lmin,lmax,wmin,wmax,nmin,nmax)
+      open(7,file=model_file,status='old',form='formatted',iostat=iret)
+      open(8,file=out_plain_file,form='formatted',iostat=iret)
+      call model(7,8) 
+      close(7)
+      ifreq=1
+      open(3,file=out_bin_file,form='unformatted',iostat=iret)
+      call wtable(8,3,ifreq,lmin,lmax,wmin,wmax,nmin,nmax)
+      close(8)  
+      close(3)
 
 
       end program
