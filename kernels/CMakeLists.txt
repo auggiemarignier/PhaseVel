@@ -23,7 +23,7 @@ target_include_directories(mineos_time INTERFACE ${MINEOS_DIR}/time)
 add_executable(${PROJECT_NAME} 
                 src/kernels.f
                 src/minos_bran.f
-                src/eigcon_subs.f
+                src/eigcon.f
                 $<TARGET_OBJECTS:mineos_fdb>
                 $<TARGET_OBJECTS:mineos_time>)
 

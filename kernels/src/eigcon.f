@@ -1,4 +1,4 @@
-      subroutine eigcon_subs(jcom,fmodel,fflatin,fbinin,fout,dmax)
+      subroutine eigcon(jcom,fmodel,fflatin,fbinin,fout,dmax)
       implicit none
       integer*4 mk
       parameter (mk=350)
