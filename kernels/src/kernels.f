@@ -2,7 +2,7 @@
 
       implicit real*8(a-h,o-z)
 
-      character*200  model_file,out_plain_file,out_bin_file
+      character*256  model_file,out_plain_file,out_bin_file
       common/bits/pi,rn,vn,wn,w,wsq,wray,qinv,cg,wgrav,tref,fct,eps,fl,
      +  fl1,fl2,fl3,sfl3,jcom,nord,l,kg,kount,knsw,ifanis,iback
 

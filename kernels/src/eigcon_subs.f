@@ -1,5 +1,4 @@
-      subroutine eigcon_subs(model_path,
-     &dmax,modelin,str2,motion,str3,str4,str8)
+      subroutine eigcon_subs(fmodel,fflatin,fbinin,fout,dmax)
       implicit none
       integer*4 mk
       parameter (mk=350)
@@ -16,12 +15,7 @@ c --- other variables
       character*20 str
       character*64 dir
       character*1 typeo
-      character*256 fmodel,fflatin,fbinin,fout,fin
-      character*200 model_path
-      character*100 modelin
-      character*20  str2
-      character*256 str3,str4,str8
-      character*3    motion
+      character*256 fmodel,fflatin,fbinin,fout
 c--- my added declarations below
       integer*4 q
       integer*4   in,nmine,nmaxe,lmine,lmaxe
@@ -40,14 +34,6 @@ c ---
       pi=4.0d0*datan(1.d0)
       con=pi*bigg
       nstart = 0
-
-c read model file name
-      read(model_path,'(a256)')fmodel
-c read minos_bran output text file
-      read(str3,'(a256)') fflatin
-c read minos_bran output binary unformatted file
-      read(str4,'(a256)') fbinin
-      read(str8,'(a256)')fout
 c
 c  read in radial knots from model
 c
