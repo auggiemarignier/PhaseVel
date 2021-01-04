@@ -9,12 +9,13 @@
       character*256 filnam
       character*200  model_path
       character*256  str3,str4
-      character*20   str5  
 
       common/bits/pi,rn,vn,wn,w,wsq,wray,qinv,cg,wgrav,tref,fct,eps,fl,
      +  fl1,fl2,fl3,sfl3,jcom,nord,l,kg,kount,knsw,ifanis,iback
 
       jcom=3
+      eps=1e-7
+      wgrav=10
       read(model_path,*)
       open(7,file=model_path,status='old',form='formatted',iostat=iret)
       read(str3,*)
@@ -25,16 +26,15 @@
       ifreq=1
       if(filnam(1:4).eq.'none') ifreq=0
       open(3,file=str4,form='unformatted',iostat=iret)
-      call wtable(8,3,ifreq,str5,lmin,lmax,wmin,wmax,nmin,nmax)
+      call wtable(8,3,ifreq,lmin,lmax,wmin,wmax,nmin,nmax)
       close(8)  
       close(3)
       end subroutine 
      
-      subroutine wtable(iout,ioeig,ifreq,str5,
+      subroutine wtable(iout,ioeig,ifreq,
      1   lmin,lmax,wmin,wmax,normin,normax)
 c*** makes up table of frequencies ***
       implicit real*8(a-h,o-z)
-      character*20 str5
       common/bits/pi,rn,vn,wn,w,wsq,wray,qinv,cg,wgrav,tref,fct,eps,fl,
      +  fl1,fl2,fl3,sfl3,jcom,nord,l,kg,kount,knsw,ifanis,iback
       common/shanks/b(46),c(10),dx,step(8),stepf,maxo,in
@@ -43,7 +43,6 @@ c*** makes up table of frequencies ***
       data inss/5/
       cmhz=pi/500.d0
       stepf=1.d0
-      read(str5,*)
 c MB added one line below
       eps=max(eps,1.d-12)
       eps1=eps
