@@ -20,21 +20,25 @@
       write(*,*) "building kernels!"
       model_file="/usr/local/opt/mineos/DEMO"
      1 //"/models/prem_noocean.txt"
+      imod=7
       out_plain_file="/Users/auggiemarignier/Documents/PhD/PhaseVel/"
      1 //"kernels/outputs/properties.txt"
+      iplain=8
       out_bin_file="/Users/auggiemarignier/Documents/PhD/PhaseVel/"
      1 //"kernels/outputs/eigenfunctions"
+      ibin=3
 
       write(*,*) model_file
-      open(7,file=model_file,status='old',form='formatted',iostat=iret)
-      open(8,file=out_plain_file,form='formatted',iostat=iret)
-      call model(7,8) 
-      close(7)
+      open(imod,file=model_file,status='old',form='formatted',
+     1 iostat=iret)
+      open(iplain,file=out_plain_file,form='formatted',iostat=iret)
+      call model(imod,iplain) 
+      close(imod)
       ifreq=1
-      open(3,file=out_bin_file,form='unformatted',iostat=iret)
-      call wtable(8,3,ifreq,lmin,lmax,wmin,wmax,nmin,nmax)
-      close(8)  
-      close(3)
+      open(ibin,file=out_bin_file,form='unformatted',iostat=iret)
+      call wtable(iplain,ibin,ifreq,lmin,lmax,wmin,wmax,nmin,nmax)
+      close(iplain)  
+      close(ibin)
 
 
       end program
