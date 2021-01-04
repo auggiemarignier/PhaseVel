@@ -1,28 +1,19 @@
-    !   subroutine minos_start(model_path,motion_number,
-    !  1   str3,str4,str5,str6) 
-
-      subroutine minos_start(model_path,lmin,lmax,
-     1   wmin,wmax,nmin,nmax)
+      subroutine minos_start(model_file,out_plain_file,out_bin_file,
+     1   lmin,lmax,wmin,wmax,nmin,nmax)
       
       implicit real*8(a-h,o-z)
 
-      character*256 filnam
-      character*200  model_path
-      character*256  str3,str4
+      character*200  model_file,out_plain_file,out_bin_file
 
       common/bits/pi,rn,vn,wn,w,wsq,wray,qinv,cg,wgrav,tref,fct,eps,fl,
      +  fl1,fl2,fl3,sfl3,jcom,nord,l,kg,kount,knsw,ifanis,iback
 
-      read(model_path,*)
-      open(7,file=model_path,status='old',form='formatted',iostat=iret)
-      read(str3,*)
-      open(8,file=str3,form='formatted',iostat=iret)
+      open(7,file=model_file,status='old',form='formatted',iostat=iret)
+      open(8,file=out_plain_file,form='formatted',iostat=iret)
       call model(7,8) 
       close(7)
-      read(str4,*)
       ifreq=1
-      if(filnam(1:4).eq.'none') ifreq=0
-      open(3,file=str4,form='unformatted',iostat=iret)
+      open(3,file=out_bin_file,form='unformatted',iostat=iret)
       call wtable(8,3,ifreq,lmin,lmax,wmin,wmax,nmin,nmax)
       close(8)  
       close(3)

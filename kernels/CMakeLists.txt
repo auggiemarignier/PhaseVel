@@ -12,11 +12,4 @@ set(MINEOS_OBJ ${MINEOS_DIR}/minos_bran.o)
 add_library(mineos OBJECT IMPORTED GLOBAL)
 set_property(TARGET mineos PROPERTY IMPORTED_OBJECTS ${MINEOS_OBJ})
 
-add_executable(${PROJECT_NAME} src/kernels.f)
-
-# set_source_files_properties(
-#   ${MINEOS_OBJ}
-#   PROPERTIES
-#   EXTERNAL_OBJECT true
-#   GENERATED true
-# )
+add_executable(${PROJECT_NAME} src/kernels.f src/minos_bran.f)
