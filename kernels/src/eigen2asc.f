@@ -55,7 +55,6 @@ c get record length of direct eigen file
       call close_eigen(ieig,idat)
       call open_eigen(fin,ieig,idat,nrecl,dir,'r',ierr)
 c find record by indices n and l
-      q=1
   1   call read_eigen(ieig,ierr)
       if(ierr.ne.0) goto 99
       if(norder_eigen.lt.nmine.or.norder_eigen.gt.nmaxe.or.
@@ -63,19 +62,34 @@ c find record by indices n and l
       read(idat,rec=eigid_eigen) nn,ll,ww,qq,rn,vn,accn,
      +     (rout(lll),(buf(ll,lll),ll=1,ncol_eigen-1),lll=1,nraw_eigen)
       do i=1,nraw_eigen
-        rout(i) = rout(i)*6371000.0
+      rout(i) = rout(i)*6371000.0
       enddo
-
-      Amp=ABS(buf(1,nraw_eigen))/(sqrt(grvel_eigen))
-      W(299-q)=per_eigen
-      S(299-q)=Amp
-      q=q+1
-
+c output data
+c form output file name
+      write(cmd,'(a1,".",i7,".",i7,".ASC")'),typeo_eigen(1:1),
+     *           norder_eigen,lorder_eigen
+      do i = 3,17
+          if(cmd(i:i).eq.' ') cmd(i:i)='0'
+      enddo
+      fout = fdir(1:lnblnk(fdir))//'/'//cmd
+      open(11,file=fout,status='unknown')
+      if(in.eq.0)
+     +write(11,1002) norder_eigen,lorder_eigen,typeo_eigen,
+     +      eigid_eigen,per_eigen,phvel_eigen,grvel_eigen,
+     +      attn_eigen,nraw_eigen,ncol_eigen
+      do i = nraw_eigen,1,-1
+      j = nraw_eigen+1-i
+      if(ncol_eigen.eq.3) then
+          write(11,1000) rout(i),(buf(lll,i),lll=1,ncol_eigen-1)
+      else
+          write(11,1001) rout(i),(buf(lll,i),lll=1,ncol_eigen-1)
+      endif
+      enddo
+      close(11)
       goto 1
   99  call close_eigen(ieig,idat)
-
  1000 format(f8.0,2e15.7)
  1001 format(f8.0,6e15.7)
  1002 format(i8,1x,i8,1x,a1,1x,i8,1x,4(f16.5,1x),i8,1x,2(i4,1x),
      +       a2,1x,i10,1x,a64,1x,a32,1x,i8,1x,a17)
-      end subroutine
+      end
