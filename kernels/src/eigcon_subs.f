@@ -1,4 +1,4 @@
-      subroutine eigcon_subs(fmodel,fflatin,fbinin,fout,dmax)
+      subroutine eigcon_subs(jcom,fmodel,fflatin,fbinin,fout,dmax)
       implicit none
       integer*4 mk
       parameter (mk=350)
@@ -25,8 +25,6 @@ c--- my added declarations below
       logical     ttf
       character*256 fdir,cmd
 c --
-      common/bits/pi,rn,vn,wn,w,wsq,wray,qinv,cg,wgrav,tref,fct,eps,fl,
-     +  fl1,fl2,fl3,sfl3,jcom,nord,l,kg,kount,knsw,ifanis,iback
       common/prm/ nn,ll,ww,qq,rn,vn,accn
       equivalence (param(1),nn)
 c ---
