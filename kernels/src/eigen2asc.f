@@ -1,4 +1,4 @@
-      subroutine eigen2asc(str8,str9,Amp,W,S,eigenvalue)
+      subroutine eigen2asc(fin,eigenasc,Amp,W,S,eigenvalue)
       implicit none
       integer*4 mk
       parameter (mk=3000)
@@ -30,7 +30,7 @@ c --- other variables
       real*8      Amp
       real*8      W(299),S(299),Amp0(299)
       integer*4   q
-      character*256   str8,str9
+      character*256 eigenasc
       character*1 eigenvalue
 
       nmine=0
@@ -39,21 +39,21 @@ c --- other variables
       lmaxe=300
       pi2 = atan(1.0)*8.0
       in = 0
-c --- if file fdir doesn't exist create it
-      inquire(file=str9,exist=tf)
+c --- if file fdir doesnt exist create it
+      inquire(file=eigenasc,exist=tf)
       if(.not.tf) then
-          write(cmd,'("mkdir -p ",a247)') str9
+          write(cmd,'("mkdir -p ",a247)') eigenasc
           call system(cmd)
       endif
       nrecl = 2000
       ieig = 9
       idat = 10
 c get record length of direct eigen file
-      call open_eigen(str8,ieig,idat,nrecl,dir,'r',ierr)
+      call open_eigen(fin,ieig,idat,nrecl,dir,'r',ierr)
       call read_eigen(ieig,ierr)
       nrecl = (ncol_eigen*nraw_eigen+npar_eigen)*4
       call close_eigen(ieig,idat)
-      call open_eigen(str8,ieig,idat,nrecl,dir,'r',ierr)
+      call open_eigen(fin,ieig,idat,nrecl,dir,'r',ierr)
 c find record by indices n and l
       q=1
   1   call read_eigen(ieig,ierr)
