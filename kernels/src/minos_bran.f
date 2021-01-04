@@ -1,20 +1,20 @@
-      subroutine minos_start(
-     &  model_path,station,str1,str2,
-     &  motion,motion_number,modelin,str3,str4,str5,str6) 
+    !   subroutine minos_start(model_path,motion_number,
+    !  1   str3,str4,str5,str6) 
+
+      subroutine minos_start(model_path,lmin,lmax,
+     1   wmin,wmax,nmin,nmax)
+      
+      implicit real*8(a-h,o-z)
 
       character*256 filnam
       character*200  model_path
-      character*256  path,str3,str4
-      integer*4      iproc
-      character*6    station
-      character*20   str5,str6   
-      character*20   str2 
-      character*3    motion
-      character*1    motion_number
-      character*100  modelin 
-      character*2    str1
- 
+      character*256  str3,str4
+      character*20   str5  
 
+      common/bits/pi,rn,vn,wn,w,wsq,wray,qinv,cg,wgrav,tref,fct,eps,fl,
+     +  fl1,fl2,fl3,sfl3,jcom,nord,l,kg,kount,knsw,ifanis,iback
+
+      jcom=3
       read(model_path,*)
       open(7,file=model_path,status='old',form='formatted',iostat=iret)
       read(str3,*)
@@ -25,17 +25,17 @@
       ifreq=1
       if(filnam(1:4).eq.'none') ifreq=0
       open(3,file=str4,form='unformatted',iostat=iret)
-      call wtable(8,3,ifreq,str5,motion_number,str6)
+      call wtable(8,3,ifreq,str5,lmin,lmax,wmin,wmax,nmin,nmax)
       close(8)  
       close(3)
       end subroutine 
      
-      subroutine wtable(iout,ioeig,ifreq,str5,motion_number,str6)
+      subroutine wtable(iout,ioeig,ifreq,str5,
+     1   lmin,lmax,wmin,wmax,normin,normax)
 c*** makes up table of frequencies ***
       implicit real*8(a-h,o-z)
-      character*1  motion_number
-      character*20 str5,str6
-      common/bits/pi,rn,vn,wn,w,wsq,wray,qinv,cg,wgrav,tref,fceps,fl,
+      character*20 str5
+      common/bits/pi,rn,vn,wn,w,wsq,wray,qinv,cg,wgrav,tref,fct,eps,fl,
      +  fl1,fl2,fl3,sfl3,jcom,nord,l,kg,kount,knsw,ifanis,iback
       common/shanks/b(46),c(10),dx,step(8),stepf,maxo,in
       common/mtab/we(2),de(2),ke(2),wtry,bm
@@ -50,15 +50,13 @@ c MB added one line below
       eps2=eps
       wgrav=wgrav*cmhz
       write(iout,100) eps,eps1,wgrav
-  100 format(/,'integration precision =',g12.4,'  root precisio=',
-     +   g12.4,'  gravity cut off =',g12.4,' rad/s',///,6'mode',
-     +   8x,'phs vel',7x,'w(mhz)',10x,'t(secs)',6x,'grp vel(km/',
+  100 format(/,'integration precision =',g12.4,'  root precision =',
+     +   g12.4,'  gravity cut off =',g12.4,' rad/s',///,6x,'mode',
+     +   8x,'phs vel',7x,'w(mhz)',10x,'t(secs)',6x,'grp vel(km/s)',
      +   8x,'q',13x,'raylquo',/)
       call steps(eps)
-      read(motion_number,*) jcom
 c MB added one line below
       if(jcom.lt.1.or.jcom.gt.4) jcom=3
-      read(str6,*) lmin,lmax,wmin,wmax,normin,normax
 c MB added one line below
       wmin=max(wmin,0.1d0)
       wmin=wmin*cmhz
