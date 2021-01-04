@@ -1,4 +1,4 @@
-      subroutine eigcon_subs(imod,
+      subroutine eigcon_subs(model_path,
      &dmax,modelin,str2,motion,str3,str4,str8)
       implicit none
       integer*4 mk
