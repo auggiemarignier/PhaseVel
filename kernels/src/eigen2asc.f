@@ -29,7 +29,7 @@ c --- other variables
       logical tf
  
       pi2 = atan(1.0)*8.0
-      in = 1
+      in = 0
 c --- if file fdir doesnt exist create it
       inquire(file=fdir,exist=tf)
       if(.not.tf) then
