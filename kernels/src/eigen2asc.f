@@ -21,6 +21,7 @@ c --- other variables
       character*64 dir
       character*256 fin,fout,fdir,cmd
       real*4      rout(mk),buf(6,mk)
+      real*4      U(mk),Up(mk),V(mk),Vp(mk),P(mk),Pp(mk),W(mk),Wp(mk)
       real*4      pi2,rn,vn,accn
       real*4      ww,qq
       integer*4   narg,iargc,nrecl,ieig,idat,ierr
@@ -50,8 +51,14 @@ c find record by indices n and l
       if(ierr.ne.0) goto 99
       if(norder_eigen.lt.nmine.or.norder_eigen.gt.nmaxe.or.
      *   lorder_eigen.lt.lmine.or.lorder_eigen.gt.lmaxe) goto 1
-      read(idat,rec=eigid_eigen) nn,ll,ww,qq,rn,vn,accn,
-     +     (rout(lll),(buf(ll,lll),ll=1,ncol_eigen-1),lll=1,nraw_eigen)
+      if(ncol_eigen.eq.3) then 
+        read(idat,rec=eigid_eigen) nn,ll,ww,qq,rn,vn,accn,
+     +     (rout(lll),W(lll),Wp(lll),lll=1,nraw_eigen)
+      else
+        read(idat,rec=eigid_eigen) nn,ll,ww,qq,rn,vn,accn,
+     +     (rout(lll),U(lll),Up(lll),V(lll),Vp(lll),P(lll),Pp(lll),
+     +      lll=1,nraw_eigen)
+      endif      
       do i=1,nraw_eigen
       rout(i) = rout(i)*6371000.0
       enddo
@@ -71,9 +78,9 @@ c form output file name
       do i = nraw_eigen,1,-1
       j = nraw_eigen+1-i
       if(ncol_eigen.eq.3) then
-          write(11,1000) rout(i),(buf(lll,i),lll=1,ncol_eigen-1)
+          write(11,1000) rout(i),W(i),Wp(i)
       else
-          write(11,1001) rout(i),(buf(lll,i),lll=1,ncol_eigen-1)
+          write(11,1001) rout(i),U(i),Up(i),V(i),Vp(i),P(i),Pp(i)
       endif
       enddo
       close(11)
