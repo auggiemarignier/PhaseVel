@@ -54,7 +54,7 @@ c find record by indices n and l
       do i=1,nraw_eigen
       rout(i) = rout(i)*6371000.0
       enddo
-  99  continue  
+  99  call close_eigen(ieig,idat)  
       end
 
       subroutine write_eigenfunctions_asc(fdir,rout,U,Up,V,Vp,P,Pp,W,Wp)
