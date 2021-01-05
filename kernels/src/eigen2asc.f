@@ -1,4 +1,4 @@
-      subroutine read_nleigenfucntion(n,l,fin)
+      subroutine read_nleigenfucntion(n,l,fin,rout,U,Up,V,Vp,P,Pp,W,Wp)
       implicit none
       integer*4 mk
       parameter (mk=3000)
@@ -19,15 +19,14 @@ c ---  eigen relation common block
      +      datatype_eigen,dir_eigen,dfile_eigen,lddate_eigen
 c --- other variables
       character*64 dir
-      character*256 fin,fout,cmd
-      real*4      rout(mk),buf(6,mk)
+      character*256 fin
+      real*4      rout(mk)
       real*4      U(mk),Up(mk),V(mk),Vp(mk),P(mk),Pp(mk),W(mk),Wp(mk)
       real*4      pi2,rn,vn,accn
       real*4      ww,qq
-      integer*4   narg,iargc,nrecl,ieig,idat,ierr
-      integer*4   nn,ll,lll,i,j
-      integer*4   in,n,l
-      logical tf
+      integer*4   nrecl,ieig,idat,ierr
+      integer*4   nn,ll,lll,i
+      integer*4   n,l
  
       pi2 = atan(1.0)*8.0
 
@@ -60,7 +59,7 @@ c find record by indices n and l
 
       subroutine write_eigenfunctions_asc(fdir,rout,U,Up,V,Vp,P,Pp,W,Wp)
       implicit none
-      integer*4 mk
+      integer*4 mk, j
       parameter (mk=3000)
 c ---  eigen relation common block
       real*4    per_eigen,phvel_eigen,grvel_eigen,attn_eigen
@@ -77,13 +76,12 @@ c ---  eigen relation common block
      +      attn_eigen,nraw_eigen,ncol_eigen,npar_eigen,
      +      foff_eigen,commid_eigen,typeo_eigen,
      +      datatype_eigen,dir_eigen,dfile_eigen,lddate_eigen
-      character*256 fin,fout,fdir,cmd
-      real*4      rout(mk),buf(6,mk)
+      character*256 fout,fdir,cmd
+      real*4      rout(mk)
       real*4      U(mk),Up(mk),V(mk),Vp(mk),P(mk),Pp(mk),W(mk),Wp(mk)
       integer*4   in, i
       logical tf
-      
-      
+        
       in = 0
 c --- if file fdir doesnt exist create it
       inquire(file=fdir,exist=tf)
