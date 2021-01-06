@@ -1,4 +1,6 @@
       program kernels
+    
+      use kernelfunctions
 
       implicit real*8(a-h,o-z)
 
@@ -7,8 +9,25 @@
 
       character*256  model_file,out_plain_file,out_bin_file,dbase_name,
      1 eigenasc 
-      real*4      rout(mk)
+      real*4      rad(mk)
       real*4      U(mk),Up(mk),V(mk),Vp(mk),P(mk),Pp(mk),W(mk),Wp(mk)
+      real*4      omega,wavenum
+      real*4      kkappa(mk),kmu(mk)
+
+      real*4    per_eigen,phvel_eigen,grvel_eigen,attn_eigen
+      integer*4 norder_eigen,lorder_eigen,eigid_eigen,
+     +          nraw_eigen,ncol_eigen,npar_eigen,foff_eigen,
+     +          commid_eigen
+      character*2 datatype_eigen
+      character*64 dir_eigen
+      character*32 dfile_eigen
+      character*17 lddate_eigen
+      character*1 typeo_eigen
+      common/c_eigen/norder_eigen,lorder_eigen,
+     +      eigid_eigen,per_eigen,phvel_eigen,grvel_eigen,
+     +      attn_eigen,nraw_eigen,ncol_eigen,npar_eigen,
+     +      foff_eigen,commid_eigen,typeo_eigen,
+     +      datatype_eigen,dir_eigen,dfile_eigen,lddate_eigen
 
       common/bits/pi,rn,vn,wn,w,wsq,wray,qinv,cg,wgrav,tref,fct,eps,fl,
      +  fl1,fl2,fl3,sfl3,jcom,nord,l,kg,kount,knsw,ifanis,iback
@@ -49,14 +68,17 @@
      1 dbase_name,6371.0)
 
       eigenasc=trim(out_bin_file)//"asc"
-    !   call eigen2asc(nmin,nmax,lmin,lmax,dbase_name,eigenasc)
 
       do n=0,nmax
-        do l=0,lmax
+        do l=lmax,lmax
           call read_nleigenfucntion(n,l,dbase_name,
-     1                              rout,U,Up,V,Vp,P,Pp,W,Wp)
+     1                              rad,U,Up,V,Vp,P,Pp,W,Wp)
+          omega = 2*pi/per_eigen
+          wavenum = omega/phvel_eigen
+          kkappa = kernel_kappa(omega,wavenum,rad,U,Up,V)
+          kmu = kernel_mu(omega,wavenum,rad,U,Up,V,Vp,W,Wp)
           call write_eigenfunctions_asc(eigenasc,
-     1                                  rout,U,Up,V,Vp,P,Pp,W,Wp)
+     1                                  rad,U,Up,V,Vp,P,Pp,W,Wp)
         enddo
       enddo
       end program
