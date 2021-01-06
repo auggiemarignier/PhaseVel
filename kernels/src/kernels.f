@@ -13,6 +13,7 @@
       real*4      U(mk),Up(mk),V(mk),Vp(mk),P(mk),Pp(mk),W(mk),Wp(mk)
       real*4      omega,wavenum
       real*4      kkappa(mk),kmu(mk)
+      real*8      alpha(mk),beta(mk)
 
       real*4    per_eigen,phvel_eigen,grvel_eigen,attn_eigen
       integer*4 norder_eigen,lorder_eigen,eigid_eigen,
@@ -29,8 +30,13 @@
      +      foff_eigen,commid_eigen,typeo_eigen,
      +      datatype_eigen,dir_eigen,dfile_eigen,lddate_eigen
 
+      common r(mk),fmu(mk),flam(mk),qshear(mk),qkappa(mk),
+     + xa2(mk),xlam(mk),rho(mk),qro(3,mk),g(mk),qg(3,mk),
+     + fcon(mk),fspl(3,mk),lcon(mk),lspl(3,mk),ncon(mk),
+     + nspl(3,mk),ccon(mk),cspl(3,mk),acon(mk),aspl(3,mk)
       common/bits/pi,rn,vn,wn,w,wsq,wray,qinv,cg,wgrav,tref,fct,eps,fl,
      +  fl1,fl2,fl3,sfl3,jcom,nord,l,kg,kount,knsw,ifanis,iback
+      common/eifx/vpv(mk),vph(mk),vsv(mk),vsh(mk),eta(mk),wrk(mk*10)
 
       jcom=3
       eps=1e-7
@@ -56,6 +62,8 @@
       open(8,file=out_plain_file,form='formatted',iostat=iret)
       call model(7,8) 
       close(7)
+      alpha=vpv
+      beta=vsv
       ifreq=1
       open(3,file=out_bin_file,form='unformatted',iostat=iret)
       call wtable(8,3,ifreq,lmin,lmax,wmin,wmax,nmin,nmax)
