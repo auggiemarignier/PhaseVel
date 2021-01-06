@@ -16,6 +16,7 @@
       real*4      kkappa(mk),kmu(mk)
       real*8      alpha(mk),beta(mk)
       real*4      kalpha(mk),kbeta(mk)
+      real*4      rhobar,bigg,tau
 
       real*4    per_eigen,phvel_eigen,grvel_eigen,attn_eigen
       integer*4 norder_eigen,lorder_eigen,eigid_eigen,
@@ -39,6 +40,8 @@
       common/bits/pi,rn,vn,wn,w,wsq,wray,qinv,cg,wgrav,tref,fct,eps,fl,
      +  fl1,fl2,fl3,sfl3,jcom,nord,l,kg,kount,knsw,ifanis,iback
       common/eifx/vpv(mk),vph(mk),vsv(mk),vsh(mk),eta(mk),wrk(mk*10)
+
+      data bigg,tau/6.6723d-11,1.d3/,rhobar/5515.d0/
 
       jcom=3
       if (jcom.lt.0.or.jcom.gt.5) then 
@@ -105,10 +108,10 @@
      1                              rad,U,Up,V,Vp,P,Pp,W,Wp)
           omega = 2*pi/per_eigen
           wavenum = omega/phvel_eigen
-          kkappa = kernel_kappa(omega,wavenum,rad/1000,U,Up,V)
-          kmu = kernel_mu(omega,wavenum,rad/1000,U,Up,V,Vp,W,Wp)
-          kalpha = kernel_alpha(alpha,rho,kkappa)
-          kbeta = kernel_beta(beta,rho,kkappa,kmu)
+          kkappa = kernel_kappa(omega,wavenum,rad/tau,U,Up,V)
+          kmu = kernel_mu(omega,wavenum,rad/tau,U,Up,V,Vp,W,Wp)
+          kalpha = kernel_alpha(alpha,rho*rhobar,kkappa)
+          kbeta = kernel_beta(beta,rho*rhobar,kkappa,kmu)
 
           call write_kernels_asc(kernelasc,rad,kkappa,kmu,kalpha,kbeta) 
         enddo
