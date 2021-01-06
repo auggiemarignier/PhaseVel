@@ -25,9 +25,12 @@ add_executable(${PROJECT_NAME}
                 src/minos_bran.f
                 src/eigcon.f
                 src/eigen2asc.f
+                src/kernelfunctions.f
                 $<TARGET_OBJECTS:mineos_fdb>
                 $<TARGET_OBJECTS:mineos_time>)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
     $<TARGET_PROPERTY:mineos_fdb,INTERFACE_INCLUDE_DIRECTORIES>
     $<TARGET_PROPERTY:mineos_time,INTERFACE_INCLUDE_DIRECTORIES>)
+
+set_target_properties(${PROJECT_NAME} PROPERTIES Fortran_MODULE_DIRECTORY ${CMAKE_BINARY_DIR})
