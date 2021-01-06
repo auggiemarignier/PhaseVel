@@ -29,4 +29,14 @@
             kmu = (1./(2.*omega))*kmu
         end function kernel_mu
 
+        function kernel_alpha(alpha,rho,kkappa) result(kalpha)
+            implicit none
+            integer*4 mk
+            parameter (mk=3000)
+            real*4      alpha(mk),rho(mk),kkappa(mk)
+            real*4      kalpha(mk)
+
+            kalpha = 2*rho*alpha*kkappa
+        end function kernel_alpha
+
       end module kernelfunctions
