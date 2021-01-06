@@ -33,7 +33,8 @@
             implicit none
             integer*4 mk
             parameter (mk=3000)
-            real*4      alpha(mk),rho(mk),kkappa(mk)
+            real*8      alpha(mk),rho(mk)
+            real*4      kkappa(mk)
             real*4      kalpha(mk)
 
             kalpha = 2*rho*alpha*kkappa
@@ -43,7 +44,8 @@
             implicit none
             integer*4 mk
             parameter (mk=3000)
-            real*4      beta(mk),rho(mk),kkappa(mk),kmu(mk)
+            real*8      beta(mk),rho(mk)
+            real*4      kkappa(mk),kmu(mk)
             real*4      kbeta(mk)
 
             kbeta = 2*rho*beta*(kmu - (4./3.)*kkappa)

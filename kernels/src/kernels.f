@@ -14,6 +14,7 @@
       real*4      omega,wavenum
       real*4      kkappa(mk),kmu(mk)
       real*8      alpha(mk),beta(mk)
+      real*4      kalpha(mk),kbeta(mk)
 
       real*4    per_eigen,phvel_eigen,grvel_eigen,attn_eigen
       integer*4 norder_eigen,lorder_eigen,eigid_eigen,
@@ -81,12 +82,14 @@
         do l=lmax,lmax
           call read_nleigenfucntion(n,l,dbase_name,
      1                              rad,U,Up,V,Vp,P,Pp,W,Wp)
+          call write_eigenfunctions_asc(eigenasc,
+     1                              rad,U,Up,V,Vp,P,Pp,W,Wp)
           omega = 2*pi/per_eigen
           wavenum = omega/phvel_eigen
           kkappa = kernel_kappa(omega,wavenum,rad,U,Up,V)
           kmu = kernel_mu(omega,wavenum,rad,U,Up,V,Vp,W,Wp)
-          call write_eigenfunctions_asc(eigenasc,
-     1                                  rad,U,Up,V,Vp,P,Pp,W,Wp)
+          kalpha = kernel_alpha(alpha,rho,kkappa)
+          kbeta = kernel_beta(beta,rho,kkappa,kmu)
         enddo
       enddo
       end program
