@@ -7,8 +7,9 @@
       integer*4 mk
       parameter (mk=3000)
 
-      character*256  model_file,out_plain_file,out_bin_file,dbase_name,
-     1 eigenasc 
+      character*256  model_file,outputs_dir
+      character*256  out_plain_file,out_bin_file
+      character*256  dbase_name,eigenasc,kernelasc
       real*4      rad(mk)
       real*4      U(mk),Up(mk),V(mk),Vp(mk),P(mk),Pp(mk),W(mk),Wp(mk)
       real*4      omega,wavenum
@@ -51,12 +52,11 @@
       nmax=0
 
       write(*,*) "building kernels!"
-      model_file="/usr/local/opt/mineos/DEMO"
-     1 //"/models/prem_noocean.txt"
-      out_plain_file="/Users/auggiemarignier/Documents/PhD/PhaseVel/"
-     1 //"kernels/outputscheck/properties.txt"
-      out_bin_file="/Users/auggiemarignier/Documents/PhD/PhaseVel/"
-     1 //"kernels/outputscheck/eigenfunctions"
+      model_file="/usr/local/opt/mineos/DEMO/models/prem_noocean.txt"
+      outputs_dir="/Users/auggiemarignier/Documents/PhD/PhaseVel/"
+     1 //"kernels/outputscheck/"
+      out_plain_file=trim(outputs_dir)//"properties.txt"
+      out_bin_file=trim(outputs_dir)//"eigenfunctions"
 
       write(*,*) model_file
       open(7,file=model_file,status='old',form='formatted',iostat=iret)
@@ -71,12 +71,12 @@
       close(8)  
       close(3)
 
-      dbase_name="/Users/auggiemarignier/Documents/PhD/PhaseVel/"
-     1 //"kernels/outputscheck/database"
+      dbase_name=trim(outputs_dir)//"database"
       call eigcon(jcom,model_file,out_plain_file,out_bin_file,
      1 dbase_name,6371.0)
 
       eigenasc=trim(out_bin_file)//"asc"
+      kernelasc=trim(outputs_dir)//"asc"
 
       do n=0,nmax
         do l=lmax,lmax
