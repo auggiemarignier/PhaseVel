@@ -105,8 +105,8 @@
      1                              rad,U,Up,V,Vp,P,Pp,W,Wp)
           omega = 2*pi/per_eigen
           wavenum = omega/phvel_eigen
-          kkappa = kernel_kappa(omega,wavenum,rad,U,Up,V)
-          kmu = kernel_mu(omega,wavenum,rad,U,Up,V,Vp,W,Wp)
+          kkappa = kernel_kappa(omega,wavenum,rad/1000,U,Up,V)
+          kmu = kernel_mu(omega,wavenum,rad/1000,U,Up,V,Vp,W,Wp)
           kalpha = kernel_alpha(alpha,rho,kkappa)
           kbeta = kernel_beta(beta,rho,kkappa,kmu)
 
