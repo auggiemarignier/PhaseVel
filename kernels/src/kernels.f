@@ -76,7 +76,7 @@
      1 dbase_name,6371.0)
 
       eigenasc=trim(out_bin_file)//"asc"
-      kernelasc=trim(outputs_dir)//"asc"
+      kernelasc=trim(outputs_dir)//"kernelsasc"
 
       do n=0,nmax
         do l=lmax,lmax
@@ -90,6 +90,8 @@
           kmu = kernel_mu(omega,wavenum,rad,U,Up,V,Vp,W,Wp)
           kalpha = kernel_alpha(alpha,rho,kkappa)
           kbeta = kernel_beta(beta,rho,kkappa,kmu)
+
+          call write_kernels_asc(kernelasc,rad,kkappa,kmu,kalpha,kbeta) 
         enddo
       enddo
       end program

@@ -52,3 +52,48 @@
         end function kernel_beta
 
       end module kernelfunctions
+
+      subroutine write_kernels_asc(fdir,rout,kkappa,kmu,kalpha,kbeta)
+        implicit none
+        integer*4 mk
+        parameter (mk=3000)
+        real*4    per_eigen,phvel_eigen,grvel_eigen,attn_eigen
+        integer*4 norder_eigen,lorder_eigen,eigid_eigen,
+     +               nraw_eigen,ncol_eigen,npar_eigen,foff_eigen,
+     +               commid_eigen
+        character*2 datatype_eigen
+        character*64 dir_eigen
+        character*32 dfile_eigen
+        character*17 lddate_eigen
+        character*1 typeo_eigen
+        common/c_eigen/norder_eigen,lorder_eigen,
+     +           eigid_eigen,per_eigen,phvel_eigen,grvel_eigen,
+     +           attn_eigen,nraw_eigen,ncol_eigen,npar_eigen,
+     +           foff_eigen,commid_eigen,typeo_eigen,
+     +           datatype_eigen,dir_eigen,dfile_eigen,lddate_eigen
+        character*256 fout,fdir,cmd
+        real*4      rout(mk)
+        real*4      kkappa(mk),kmu(mk),kalpha(mk),kbeta(mk)
+        integer i
+        logical tf
+
+        inquire(file=fdir,exist=tf)
+        if(.not.tf) then
+                write(cmd,'("mkdir -p ",a247)') fdir
+            call system(cmd)
+        endif
+          
+        write(cmd,'(a1,".",i7,".",i7,".ASC")'),typeo_eigen(1:1),
+     *            norder_eigen,lorder_eigen
+        do i = 3,17
+            if(cmd(i:i).eq.' ') cmd(i:i)='0'
+        enddo
+        fout = fdir(1:lnblnk(fdir))//'/'//cmd
+        open(11,file=fout,status='unknown')
+        do i = nraw_eigen,1,-1
+            write(11,1000) 
+     1          rout(i),kkappa(i),kmu(i),kalpha(i),kbeta(i)
+        enddo
+        close(11)
+ 1000   format(f8.0,4e15.7)
+        end subroutine
