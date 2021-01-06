@@ -38,5 +38,15 @@
 
             kalpha = 2*rho*alpha*kkappa
         end function kernel_alpha
+        
+        function kernel_beta(beta,rho,kkappa,kmu) result(kbeta)
+            implicit none
+            integer*4 mk
+            parameter (mk=3000)
+            real*4      beta(mk),rho(mk),kkappa(mk),kmu(mk)
+            real*4      kbeta(mk)
+
+            kbeta = 2*rho*beta*(kmu - (4./3.)*kkappa)
+        end function kernel_beta
 
       end module kernelfunctions
