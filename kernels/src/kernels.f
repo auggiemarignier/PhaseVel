@@ -79,7 +79,7 @@
       kernelasc=trim(outputs_dir)//"kernelsasc"
 
       do n=0,nmax
-        do l=lmax,lmax
+        do l=0,lmax
           call read_nleigenfucntion(n,l,dbase_name,
      1                              rad,U,Up,V,Vp,P,Pp,W,Wp)
           call write_eigenfunctions_asc(eigenasc,
