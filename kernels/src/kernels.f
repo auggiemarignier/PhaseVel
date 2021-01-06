@@ -41,6 +41,9 @@
       common/eifx/vpv(mk),vph(mk),vsv(mk),vsh(mk),eta(mk),wrk(mk*10)
 
       jcom=3
+      if (jcom.lt.0.or.jcom.gt.5) then 
+        print*,"Invalid jcom"
+      endif
       eps=1e-7
       wgrav=10
 
@@ -79,9 +82,25 @@
       kernelasc=trim(outputs_dir)//"kernelsasc"
 
       do n=0,nmax
-        do l=0,lmax
+        do l=130,130
           call read_nleigenfucntion(n,l,dbase_name,
      1                              rad,U,Up,V,Vp,P,Pp,W,Wp)
+          if (jcom.eq.3) then ! spheroidal modes
+            W=0
+            Wp=0
+          else if (jcom.eq.2.or.jcom.eq.4) then ! toroidal modes
+            U=0
+            Up=0
+            V=0
+            Vp=0
+            P=0
+            Pp=0
+          else ! radial modes
+            V=0
+            Vp=0
+            W=0
+            Wp=0
+          endif
           call write_eigenfunctions_asc(eigenasc,
      1                              rad,U,Up,V,Vp,P,Pp,W,Wp)
           omega = 2*pi/per_eigen
