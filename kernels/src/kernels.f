@@ -68,8 +68,8 @@
       open(8,file=out_plain_file,form='formatted',iostat=iret)
       call model(7,8) 
       close(7)
-      alpha=vpv
-      beta=vsv
+      alpha=vpv/tau
+      beta=vsv/tau
       ifreq=1
       open(3,file=out_bin_file,form='unformatted',iostat=iret)
       call wtable(8,3,ifreq,lmin,lmax,wmin,wmax,nmin,nmax)
