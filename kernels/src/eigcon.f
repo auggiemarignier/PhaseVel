@@ -165,6 +165,25 @@ c check that jcom corresponds to minos_bran mode
         stop
       endif
 c additional normalization V, V' or W, W' by sqrt(l(l+1))
+      if(typeo_eigen.eq.'S'.or.typeo_eigen.eq.'T') then
+        fl=ll
+        fl1=fl+1.0
+        fl3=sqrt(fl*fl1)
+        do i=nstart,n
+          do j =2,3
+             if(typeo_eigen.eq.'T') then
+               buf(j,i)=buf(j,i)/fl3
+             else
+               buf(j+2,i)=buf(j+2,i)/fl3
+             endif
+          enddo
+        enddo
+      endif
+      if(qq.gt.0.01) then
+         qq=0.5*ww/qq
+      else
+         qq = 0.0
+      endif
       call write_eigen(ieig,ierr)
 c
 c  Form output buffer

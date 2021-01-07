@@ -17,6 +17,7 @@
       real*8      alpha(mk),beta(mk)
       real*4      kalpha(mk),kbeta(mk)
       real*4      rhobar,bigg,tau
+      real*4      fl
 
       real*4    per_eigen,phvel_eigen,grvel_eigen,attn_eigen
       integer*4 norder_eigen,lorder_eigen,eigid_eigen,
@@ -57,14 +58,12 @@
       nmin=0
       nmax=0
 
-      write(*,*) "building kernels!"
       model_file="/usr/local/opt/mineos/DEMO/models/prem_noocean.txt"
       outputs_dir="/Users/auggiemarignier/Documents/PhD/PhaseVel/"
      1 //"kernels/outputscheck/"
       out_plain_file=trim(outputs_dir)//"properties.txt"
       out_bin_file=trim(outputs_dir)//"eigenfunctions"
 
-      write(*,*) model_file
       open(7,file=model_file,status='old',form='formatted',iostat=iret)
       open(8,file=out_plain_file,form='formatted',iostat=iret)
       call model(7,8) 
@@ -88,6 +87,11 @@
         do l=130,130
           call read_nleigenfucntion(n,l,dbase_name,
      1                              rad,U,Up,V,Vp,P,Pp,W,Wp)
+          fl=lorder_eigen
+          V=V*sqrt(fl*(fl+1))
+          Vp=Vp*sqrt(fl*(fl+1))
+          W=W*sqrt(fl*(fl+1))
+          Wp=Wp*sqrt(fl*(fl+1))
           if (jcom.eq.3) then ! spheroidal modes
             W=0
             Wp=0
