@@ -1,32 +1,94 @@
       module kernelfunctions
 
         contains
-      
-        function kernel_kappa(omega,wavenum,r,U,Up,V) result(kkappa)
+
+        function kernel_C(Up) result(kC)
+            implicit none
+            integer*4 mk
+            parameter (mk=3000)
+            real*4      Up(mk)
+            real*4      kC(mk)
+
+            kC = Up**2
+        end function
+
+        function kernel_A(lorder,r,U,V) result(kA)
+            implicit none
+            integer*4 mk
+            parameter (mk=3000)
+            real*4      r(mk),U(mk),V(mk)
+            real*4      lorder
+            real*4      kA(mk)
+
+            kA = (1./r**2)*(2*U - lorder*(lorder+1)*V)**2 
+        end function
+
+        function kernel_F(lorder,r,U,Up,V) result(kF)
             implicit none
             integer*4 mk
             parameter (mk=3000)
             real*4      r(mk),U(mk),Up(mk),V(mk)
-            real*4      omega,wavenum
-            real*4      kkappa(mk)
+            real*4      lorder
+            real*4      kF(mk)
 
-            kkappa = (r*Up + 2*U - wavenum*V)**2
-            kkappa = (1./(2.*omega))*kkappa
-        end function kernel_kappa
+            kF = (2./r)*Up*(2*U - lorder*(lorder+1)*V) 
+        end function
 
-        function kernel_mu(omega,wavenum,r,U,Up,V,Vp,W,Wp) result(kmu)
+        function kernel_L(lorder,r,U,V,Vp) result(kL)
             implicit none
             integer*4 mk
             parameter (mk=3000)
-            real*4      r(mk),U(mk),Up(mk),V(mk),Vp(mk),W(mk),Wp(mk)
-            real*4      omega,wavenum
+            real*4      r(mk),U(mk),V(mk),Vp(mk)
+            real*4      lorder
+            real*4      kL(mk)
+
+            kL = lorder*(lorder+1)*(Vp + (U - V)/r)**2
+        end function
+
+        function kernel_N(lorder,r,U,V) result(kN)
+            implicit none
+            integer*4 mk
+            parameter (mk=3000)
+            real*4      r(mk),U(mk),V(mk),kA(mk)
+            real*4      lorder
+            real*4      kN(mk)
+
+            kA = kernel_A(lorder,r,U,V)
+            kN = (lorder+2)*(lorder+1)*lorder*(lorder-1)*V**2
+            kN = kN - kA*r**2
+            kN = (1./r**2)*kN
+        end function
+        
+        function kernel_kappa(lorder,r,U,Up,V) result(kkappa)
+            implicit none
+            integer*4 mk
+            parameter (mk=3000)
+            real*4      r(mk),U(mk),Up(mk),V(mk)
+            real*4      lorder
+            real*4      kA(mk),kC(mk),kF(mk)
+            real*4      kkappa(mk)
+
+            kC = kernel_C(Up)
+            kA = kernel_A(lorder,r,U,V)
+            kF = kernel_F(lorder,r,U,Up,V)
+            kkappa = kA + kC + kF
+        end function kernel_kappa
+
+        function kernel_mu(lorder,r,U,Up,V,Vp) result(kmu)
+            implicit none
+            integer*4 mk
+            parameter (mk=3000)
+            real*4      r(mk),U(mk),Up(mk),V(mk),Vp(mk)
+            real*4      kC(mk),kA(mk),kF(mk),kL(mk),kN(mk)
+            real*4      lorder
             real*4      kmu(mk)
 
-            kmu = (1./3.)*(2*r*Up -2*U +wavenum*V)**2
-            kmu = kmu + (r*Vp - V + wavenum*U)**2
-            kmu = kmu + (r*Wp - W)**2
-            kmu = kmu + (wavenum**2 - 2)*(V**2 + W**2)
-            kmu = (1./(2.*omega))*kmu
+            kL = kernel_L(lorder,r,U,V,Vp)
+            kN = kernel_N(lorder,r,U,V)
+            kA = kernel_A(lorder,r,U,V)
+            kC = kernel_C(Up)
+            kF = kernel_F(lorder,r,U,Up,V)
+            kmu = kL + kN + (2./3.)*(2*kA + 2*kC - kF)
         end function kernel_mu
 
         function kernel_alpha(alpha,rho,kkappa) result(kalpha)
