@@ -87,11 +87,6 @@
         do l=130,130
           call read_nleigenfucntion(n,l,dbase_name,
      1                              rad,U,Up,V,Vp,P,Pp,W,Wp)
-          fl=lorder_eigen
-          V=V*sqrt(fl*(fl+1))
-          Vp=Vp*sqrt(fl*(fl+1))
-          W=W*sqrt(fl*(fl+1))
-          Wp=Wp*sqrt(fl*(fl+1))
           if (jcom.eq.3) then ! spheroidal modes
             W=0
             Wp=0
@@ -111,9 +106,9 @@
           call write_eigenfunctions_asc(eigenasc,
      1                              rad,U,Up,V,Vp,P,Pp,W,Wp)
           omega = 2*pi/per_eigen
-          wavenum = omega/phvel_eigen
-          kkappa = kernel_kappa(omega,wavenum,rad/tau,U,Up,V)
-          kmu = kernel_mu(omega,wavenum,rad/tau,U,Up,V,Vp,W,Wp)
+          fl = lorder_eigen
+          kkappa = kernel_kappa(fl,rad/tau,U,Up,V)
+          kmu = kernel_mu(fl,rad/tau,U,Up,V,Vp)
           kalpha = kernel_alpha(alpha,rho*rhobar,kkappa)
           kbeta = kernel_beta(beta,rho*rhobar,kkappa,kmu)
 
