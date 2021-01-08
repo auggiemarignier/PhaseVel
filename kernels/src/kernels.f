@@ -12,7 +12,7 @@
       character*256  dbase_name,eigenasc,kernelasc
       real*4      rad(mk)
       real*4      U(mk),Up(mk),V(mk),Vp(mk),P(mk),Pp(mk),W(mk),Wp(mk)
-      real*4      omega,wavenum
+      real*4      omega
       real*4      kkappa(mk),kmu(mk)
       real*8      alpha(mk),beta(mk)
       real*4      kalpha(mk),kbeta(mk)
@@ -107,8 +107,8 @@
      1                              rad,U,Up,V,Vp,P,Pp,W,Wp)
           omega = 2*pi/per_eigen
           fl = lorder_eigen
-          kkappa = kernel_kappa(fl,rad/tau,U,Up,V)
-          kmu = kernel_mu(fl,rad/tau,U,Up,V,Vp)
+          kkappa = kernel_kappa(fl,real(r),U,Up,V)
+          kmu = kernel_mu(fl,real(r),U,Up,V,Vp)
           kalpha = kernel_alpha(alpha,rho*rhobar,kkappa)
           kbeta = kernel_beta(beta,rho*rhobar,kkappa,kmu)
 
