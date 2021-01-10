@@ -58,9 +58,8 @@
       nmin=0
       nmax=0
 
-      model_file="/usr/local/opt/mineos/DEMO/models/prem_noocean.txt"
-      outputs_dir="/Users/auggiemarignier/Documents/PhD/PhaseVel/"
-     1 //"kernels/outputscheck/"
+      call getarg(1,model_file)
+      call getarg(2,outputs_dir)
       out_plain_file=trim(outputs_dir)//"properties.txt"
       out_bin_file=trim(outputs_dir)//"eigenfunctions"
 
