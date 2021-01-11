@@ -80,7 +80,7 @@
      1 dbase_name,6371.0)
 
       eigenasc=trim(out_bin_file)//"asc"
-      kernelasc=trim(outputs_dir)//"kernelsasc"
+      kernelasc=trim(outputs_dir)//"/kernelsasc"
 
       do n=0,nmax
         do l=130,130
