@@ -60,8 +60,8 @@
 
       call getarg(1,model_file)
       call getarg(2,outputs_dir)
-      out_plain_file=trim(outputs_dir)//"properties.txt"
-      out_bin_file=trim(outputs_dir)//"eigenfunctions"
+      out_plain_file=trim(outputs_dir)//"/properties.txt"
+      out_bin_file=trim(outputs_dir)//"/eigenfunctions"
 
       open(7,file=model_file,status='old',form='formatted',iostat=iret)
       open(8,file=out_plain_file,form='formatted',iostat=iret)
@@ -75,7 +75,7 @@
       close(8)  
       close(3)
 
-      dbase_name=trim(outputs_dir)//"database"
+      dbase_name=trim(outputs_dir)//"/database"
       call eigcon(jcom,model_file,out_plain_file,out_bin_file,
      1 dbase_name,6371.0)
 
