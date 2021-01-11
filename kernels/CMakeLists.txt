@@ -14,7 +14,9 @@ ExternalProject_Add(${EP_MINEOS}
     GIT_REPOSITORY git@github.com:geodynamics/mineos.git
     GIT_SHALLOW ON
     GIT_SUBMODULES ""
+    UPDATE_COMMAND ""
     CONFIGURE_COMMAND autoreconf -i <SOURCE_DIR> && <SOURCE_DIR>/configure FFLAGS=${CMAKE_Fortran_FLAGS} --disable-doc 
+    INSTALL_COMMAND ""
 )
 ExternalProject_Get_Property(${EP_MINEOS} SOURCE_DIR)
 include_directories(${SOURCE_DIR}/fdb)
