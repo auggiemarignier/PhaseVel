@@ -52,7 +52,7 @@
       wgrav=10
 
       lmin=0
-      lmax=300
+      lmax=415
       wmin=0
       wmax=100
       nmin=0
@@ -83,7 +83,7 @@
       kernelasc=trim(outputs_dir)//"/kernelsasc"
 
       do n=0,nmax
-        do l=130,130
+        do l=lmin,lmax
           call read_nleigenfucntion(n,l,dbase_name,
      1                              rad,U,Up,V,Vp,P,Pp,W,Wp)
           if (jcom.eq.3) then ! spheroidal modes
