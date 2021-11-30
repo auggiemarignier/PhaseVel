@@ -1,14 +1,8 @@
-junk
-obj
-bin
-outputs
-inputs
-hvh_all*
+outputs*
 **/.vscode
 **/__pycache__
 **/.pytest_cache
 **/.ipynb_checkpoints
 
-*icuts*
-
 build
+*.mod
