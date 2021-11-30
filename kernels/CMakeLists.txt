@@ -11,7 +11,7 @@ set(MINEOS mineos)
 
 include(ExternalProject)
 ExternalProject_Add(${EP_MINEOS}
-    GIT_REPOSITORY git@github.com:geodynamics/mineos.git
+    GIT_REPOSITORY https://github.com/geodynamics/mineos.git
     GIT_SHALLOW ON
     GIT_SUBMODULES ""
     UPDATE_COMMAND ""
