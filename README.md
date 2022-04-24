@@ -16,7 +16,7 @@ make
 make install
 ```
 
-This will produce the `kernels` executable in the `build` directory.  This has only been tested on Mac OS using `gfortran 10.2.0` and `clang 12.0.5` as the fortran compiler.
+This will produce the `kernels` executable in the `build` directory, and also install the executable as per `cmake` rules e.g. `/usr/local/bin/kernels` on Mac OS.  This has only been tested on Mac OS using `gfortran 10.2.0` and `clang 12.0.5` as the fortran compiler.
 
 ## Usage
 
