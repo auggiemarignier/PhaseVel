@@ -13,6 +13,7 @@ mkdir build
 cd build
 cmake ..
 make
+make install
 ```
 
 This will produce the `kernels` executable in the `build` directory.  This has only been tested on Mac OS using `gfortran 10.2.0` and `clang 12.0.5` as the fortran compiler.
