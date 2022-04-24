@@ -34,3 +34,5 @@ add_executable(${PROJECT_NAME}
                 $<TARGET_OBJECTS:${MINEOS}>)
 add_dependencies(${PROJECT_NAME} ${MINEOS})
 set_target_properties(${PROJECT_NAME} PROPERTIES Fortran_MODULE_DIRECTORY ${CMAKE_BINARY_DIR})
+
+install(TARGETS ${PROJECT_NAME})
