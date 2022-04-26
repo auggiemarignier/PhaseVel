@@ -5,7 +5,7 @@
       implicit real*8(a-h,o-z)
 
       integer*4 mk
-      parameter (mk=350)
+      parameter (mk=3000)
 
       character*256  model_file,outputs_dir
       character*256  out_plain_file,out_bin_file
