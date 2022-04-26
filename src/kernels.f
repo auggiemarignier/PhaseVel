@@ -5,13 +5,13 @@
       implicit real*8(a-h,o-z)
 
       integer*4 mk
-      parameter (mk=3000)
+      parameter (mk=350)
 
       character*256  model_file,outputs_dir
       character*256  out_plain_file,out_bin_file
       character*256  dbase_name,eigenasc,kernelasc
       real*4      rad(mk)
-      real*4      U(mk),Up(mk),V(mk),Vp(mk),P(mk),Pp(mk),W(mk),Wp(mk)
+      real*4      U(mk),Up(mk),V(mk),Vp(mk),P(mk),Pp(mk),Weig(mk),Wp(mk)
       real*4      omega
       real*4      kkappa(mk),kmu(mk)
       real*8      alpha(mk),beta(mk)
@@ -48,13 +48,13 @@
       if (jcom.lt.0.or.jcom.gt.5) then 
         print*,"Invalid jcom"
       endif
-      eps=1e-7
+      eps=1e-10
       wgrav=10
 
-      lmin=0
-      lmax=415
+      lmin=2
+      lmax=400
       wmin=0
-      wmax=100
+      wmax=1000.0
       nmin=0
       nmax=0
 
@@ -77,7 +77,7 @@
 
       dbase_name=trim(outputs_dir)//"/database"
       call eigcon(jcom,model_file,out_plain_file,out_bin_file,
-     1 dbase_name,6371.0)
+     1 dbase_name,2000.0)
 
       eigenasc=trim(out_bin_file)//"asc"
       kernelasc=trim(outputs_dir)//"/kernelsasc"
@@ -85,9 +85,9 @@
       do n=0,nmax
         do l=lmin,lmax
           call read_nleigenfucntion(n,l,dbase_name,
-     1                              rad,U,Up,V,Vp,P,Pp,W,Wp)
+     1                              rad,U,Up,V,Vp,P,Pp,Weig,Wp)
           if (jcom.eq.3) then ! spheroidal modes
-            W=0
+            Weig=0
             Wp=0
           else if (jcom.eq.2.or.jcom.eq.4) then ! toroidal modes
             U=0
@@ -99,11 +99,11 @@
           else ! radial modes
             V=0
             Vp=0
-            W=0
+            Weig=0
             Wp=0
           endif
           call write_eigenfunctions_asc(eigenasc,
-     1                              rad,U,Up,V,Vp,P,Pp,W,Wp)
+     1                              rad,U,Up,V,Vp,P,Pp,Weig,Wp)
           omega = 2*pi/per_eigen
           fl = lorder_eigen
           kkappa = kernel_kappa(fl,real(r),U,Up,V)
