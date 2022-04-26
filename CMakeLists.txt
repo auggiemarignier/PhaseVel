@@ -26,7 +26,10 @@ set_property(TARGET ${MINEOS} PROPERTY IMPORTED_OBJECTS ${BINARY_DIR}/fdb_eigen.
 add_dependencies(${MINEOS} ${EP_MINEOS})
 
 add_executable(${PROJECT_NAME} 
-                src/all_kernels.f
+                src/kernels.f
+                src/minos_bran.f
+                src/eigcon.f
+                src/eigen2asc.f
                 src/kernelfunctions.f
                 $<TARGET_OBJECTS:${MINEOS}>)
 add_dependencies(${PROJECT_NAME} ${MINEOS})

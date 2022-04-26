@@ -11,16 +11,10 @@ c*** makes up table of frequencies ***
       cmhz=pi/500.d0
       stepf=1.d0
 c MB added one line below
-      write(*,*) eps, jcom, pi
       eps=max(eps,1.d-12)
       eps1=eps
       eps2=eps
-      write(*,*) wgrav, eps
       wgrav=wgrav*cmhz
-      write(*,*) wgrav
-      write(*,*) "setting wgrav in wtable"
-      wgrav=56
-      write(*,*) wgrav
       write(iout,100) eps,eps1,wgrav
   100 format(/,'integration precision =',g12.4,'  root precision =',
      +   g12.4,'  gravity cut off =',g12.4,' rad/s',///,6x,'mode',
@@ -111,7 +105,6 @@ c*** find roots by spline interpolation ***
       dimension x(20),det(20),qx(3,20),wrk(60),wt(*),kchar(4)
       character*2 kchar
       data tol/1.d-9/,itmax/15/,kchar/' s',' t',' s',' c'/
-      write(*,*) "IN rotspl", wgrav
       if(de(1)*de(2).gt.0.d0) return
       nord=ke(2)
       if(l.eq.1) nord=nord+1

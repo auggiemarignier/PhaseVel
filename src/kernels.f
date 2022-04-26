@@ -74,8 +74,6 @@
       call wtable(8,3,ifreq,lmin,lmax,wmin,wmax,nmin,nmax)
       close(8)  
       close(3)
-      write(*,*) "after wtable"
-      write(*,*) wgrav
 
       dbase_name=trim(outputs_dir)//"/database"
       call eigcon(jcom,model_file,out_plain_file,out_bin_file,
