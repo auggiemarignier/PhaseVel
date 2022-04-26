@@ -116,7 +116,10 @@
           call write_kernels_asc(kernelasc,rad,kkappa,kmu,kalpha,kbeta) 
         enddo
       enddo
-      end program      subroutine wtable(iout,ioeig,ifreq,
+      end program      
+      
+      
+      subroutine wtable(iout,ioeig,ifreq,
      1   lmin,lmax,wmin,wmax,normin,normax)
 c*** makes up table of frequencies ***
       implicit real*8(a-h,o-z)
@@ -3161,6 +3164,8 @@ c    branching points, i have used the fact that ncol is lt mrow.
       if(k.ge.1)go to 105
       return
       end
+
+
       subroutine eigcon(jcom,fmodel,fflatin,fbinin,fout,dmax)
       implicit none
       integer*4 mk
@@ -3368,6 +3373,8 @@ c
 
       call close_eigen(ieig,idat)
       end
+
+
       subroutine read_nleigenfucntion(n,l,fin,rout,U,Up,V,Vp,P,Pp,W,Wp)
       implicit none
       integer*4 mk
