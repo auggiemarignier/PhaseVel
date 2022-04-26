@@ -5,7 +5,7 @@
         function kernel_C(Up) result(kC)
             implicit none
             integer*4 mk
-            parameter (mk=3000)
+            parameter (mk=350)
             real*4      Up(mk)
             real*4      kC(mk)
 
@@ -15,7 +15,7 @@
         function kernel_A(lorder,r,U,V) result(kA)
             implicit none
             integer*4 mk
-            parameter (mk=3000)
+            parameter (mk=350)
             real*4      r(mk),U(mk),V(mk)
             real*4      lorder
             real*4      kA(mk)
@@ -26,7 +26,7 @@
         function kernel_F(lorder,r,U,Up,V) result(kF)
             implicit none
             integer*4 mk
-            parameter (mk=3000)
+            parameter (mk=350)
             real*4      r(mk),U(mk),Up(mk),V(mk)
             real*4      lorder
             real*4      kF(mk)
@@ -37,7 +37,7 @@
         function kernel_L(lorder,r,U,V,Vp) result(kL)
             implicit none
             integer*4 mk
-            parameter (mk=3000)
+            parameter (mk=350)
             real*4      r(mk),U(mk),V(mk),Vp(mk)
             real*4      lorder
             real*4      kL(mk)
@@ -48,7 +48,7 @@
         function kernel_N(lorder,r,U,V) result(kN)
             implicit none
             integer*4 mk
-            parameter (mk=3000)
+            parameter (mk=350)
             real*4      r(mk),U(mk),V(mk),kA(mk)
             real*4      lorder
             real*4      kN(mk)
@@ -62,7 +62,7 @@
         function kernel_kappa(lorder,r,U,Up,V) result(kkappa)
             implicit none
             integer*4 mk
-            parameter (mk=3000)
+            parameter (mk=350)
             real*4      r(mk),U(mk),Up(mk),V(mk)
             real*4      lorder
             real*4      kA(mk),kC(mk),kF(mk)
@@ -77,7 +77,7 @@
         function kernel_mu(lorder,r,U,Up,V,Vp) result(kmu)
             implicit none
             integer*4 mk
-            parameter (mk=3000)
+            parameter (mk=350)
             real*4      r(mk),U(mk),Up(mk),V(mk),Vp(mk)
             real*4      kC(mk),kA(mk),kF(mk),kL(mk),kN(mk)
             real*4      lorder
@@ -94,7 +94,7 @@
         function kernel_alpha(alpha,rho,kkappa) result(kalpha)
             implicit none
             integer*4 mk
-            parameter (mk=3000)
+            parameter (mk=350)
             real*8      alpha(mk),rho(mk)
             real*4      kkappa(mk)
             real*4      kalpha(mk)
@@ -105,7 +105,7 @@
         function kernel_beta(beta,rho,kkappa,kmu) result(kbeta)
             implicit none
             integer*4 mk
-            parameter (mk=3000)
+            parameter (mk=350)
             real*8      beta(mk),rho(mk)
             real*4      kkappa(mk),kmu(mk)
             real*4      kbeta(mk)
@@ -118,7 +118,7 @@
       subroutine write_kernels_asc(fdir,rout,kkappa,kmu,kalpha,kbeta)
         implicit none
         integer*4 mk
-        parameter (mk=3000)
+        parameter (mk=350)
         real*4    per_eigen,phvel_eigen,grvel_eigen,attn_eigen
         integer*4 norder_eigen,lorder_eigen,eigid_eigen,
      +               nraw_eigen,ncol_eigen,npar_eigen,foff_eigen,
