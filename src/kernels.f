@@ -48,13 +48,13 @@
       if (jcom.lt.0.or.jcom.gt.5) then 
         print*,"Invalid jcom"
       endif
-      eps=1e-7
+      eps=1e-10
       wgrav=10
 
-      lmin=0
-      lmax=415
+      lmin=2
+      lmax=400
       wmin=0
-      wmax=100
+      wmax=1000.0
       nmin=0
       nmax=0
 
@@ -77,7 +77,7 @@
 
       dbase_name=trim(outputs_dir)//"/database"
       call eigcon(jcom,model_file,out_plain_file,out_bin_file,
-     1 dbase_name,6371.0)
+     1 dbase_name,2000.0)
 
       eigenasc=trim(out_bin_file)//"asc"
       kernelasc=trim(outputs_dir)//"/kernelsasc"
