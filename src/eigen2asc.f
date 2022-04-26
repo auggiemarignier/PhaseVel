@@ -1,7 +1,7 @@
       subroutine read_nleigenfucntion(n,l,fin,rout,U,Up,V,Vp,P,Pp,W,Wp)
       implicit none
       integer*4 mk
-      parameter (mk=3000)
+      parameter (mk=350)
 c ---  eigen relation common block
       real*4    per_eigen,phvel_eigen,grvel_eigen,attn_eigen
       integer*4 norder_eigen,lorder_eigen,eigid_eigen,
@@ -60,7 +60,7 @@ c find record by indices n and l
       subroutine write_eigenfunctions_asc(fdir,rout,U,Up,V,Vp,P,Pp,W,Wp)
       implicit none
       integer*4 mk, j
-      parameter (mk=3000)
+      parameter (mk=350)
 c ---  eigen relation common block
       real*4    per_eigen,phvel_eigen,grvel_eigen,attn_eigen
       integer*4 norder_eigen,lorder_eigen,eigid_eigen,

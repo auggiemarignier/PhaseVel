@@ -1,7 +1,7 @@
       subroutine eigcon(jcom,fmodel,fflatin,fbinin,fout,dmax)
       implicit none
       integer*4 mk
-      parameter (mk=3000)
+      parameter (mk=350)
       include "fdb_eigen.h"
 c --- other variables
       real*8    r(mk),pi
