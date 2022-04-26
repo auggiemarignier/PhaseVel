@@ -11,10 +11,13 @@ c*** makes up table of frequencies ***
       cmhz=pi/500.d0
       stepf=1.d0
 c MB added one line below
+      write(*,*) eps, jcom, pi
       eps=max(eps,1.d-12)
       eps1=eps
       eps2=eps
+      write(*,*) wgrav
       wgrav=wgrav*cmhz
+      write(*,*) wgrav
       write(iout,100) eps,eps1,wgrav
   100 format(/,'integration precision =',g12.4,'  root precision =',
      +   g12.4,'  gravity cut off =',g12.4,' rad/s',///,6x,'mode',
