@@ -11,7 +11,7 @@
       character*256  out_plain_file,out_bin_file
       character*256  dbase_name,eigenasc,kernelasc
       real*4      rad(mk)
-      real*4      U(mk),Up(mk),V(mk),Vp(mk),P(mk),Pp(mk),W(mk),Wp(mk)
+      real*4      U(mk),Up(mk),V(mk),Vp(mk),P(mk),Pp(mk),Weig(mk),Wp(mk)
       real*4      omega
       real*4      kkappa(mk),kmu(mk)
       real*8      alpha(mk),beta(mk)
@@ -65,9 +65,7 @@
 
       open(7,file=model_file,status='old',form='formatted',iostat=iret)
       open(8,file=out_plain_file,form='formatted',iostat=iret)
-      write(*,*) "pi pre model", pi
       call model(7,8) 
-      write(*,*) "pi post model", pi
       
       close(7)
       alpha=vpv/tau
@@ -77,8 +75,6 @@
       call wtable(8,3,ifreq,lmin,lmax,wmin,wmax,nmin,nmax)
       close(8)  
       close(3)
-      write(*,*) "after wtable"
-      write(*,*) wgrav
 
       dbase_name=trim(outputs_dir)//"/database"
       call eigcon(jcom,model_file,out_plain_file,out_bin_file,
@@ -90,9 +86,9 @@
       do n=0,nmax
         do l=lmin,lmax
           call read_nleigenfucntion(n,l,dbase_name,
-     1                              rad,U,Up,V,Vp,P,Pp,W,Wp)
+     1                              rad,U,Up,V,Vp,P,Pp,Weig,Wp)
           if (jcom.eq.3) then ! spheroidal modes
-            W=0
+            Weig=0
             Wp=0
           else if (jcom.eq.2.or.jcom.eq.4) then ! toroidal modes
             U=0
@@ -104,11 +100,11 @@
           else ! radial modes
             V=0
             Vp=0
-            W=0
+            Weig=0
             Wp=0
           endif
           call write_eigenfunctions_asc(eigenasc,
-     1                              rad,U,Up,V,Vp,P,Pp,W,Wp)
+     1                              rad,U,Up,V,Vp,P,Pp,Weig,Wp)
           omega = 2*pi/per_eigen
           fl = lorder_eigen
           kkappa = kernel_kappa(fl,real(r),U,Up,V)
@@ -135,16 +131,10 @@ c*** makes up table of frequencies ***
       cmhz=pi/500.d0
       stepf=1.d0
 c MB added one line below
-      write(*,*) eps, jcom, pi
       eps=max(eps,1.d-12)
       eps1=eps
       eps2=eps
-      write(*,*) wgrav, eps
       wgrav=wgrav*cmhz
-      write(*,*) wgrav
-      write(*,*) "setting wgrav in wtable"
-      wgrav=56
-      write(*,*) wgrav
       write(iout,100) eps,eps1,wgrav
   100 format(/,'integration precision =',g12.4,'  root precision =',
      +   g12.4,'  gravity cut off =',g12.4,' rad/s',///,6x,'mode',
