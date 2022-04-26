@@ -65,7 +65,10 @@
 
       open(7,file=model_file,status='old',form='formatted',iostat=iret)
       open(8,file=out_plain_file,form='formatted',iostat=iret)
+      write(*,*) "pi pre model", pi
       call model(7,8) 
+      write(*,*) "pi post model", pi
+      
       close(7)
       alpha=vpv/tau
       beta=vsv/tau
@@ -232,7 +235,6 @@ c*** find roots by spline interpolation ***
       dimension x(20),det(20),qx(3,20),wrk(60),wt(*),kchar(4)
       character*2 kchar
       data tol/1.d-9/,itmax/15/,kchar/' s',' t',' s',' c'/
-      write(*,*) "IN rotspl", wgrav
       if(de(1)*de(2).gt.0.d0) return
       nord=ke(2)
       if(l.eq.1) nord=nord+1
