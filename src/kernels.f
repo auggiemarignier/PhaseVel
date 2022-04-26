@@ -77,7 +77,7 @@
 
       dbase_name=trim(outputs_dir)//"/database"
       call eigcon(jcom,model_file,out_plain_file,out_bin_file,
-     1 dbase_name,2000.0)
+     1 dbase_name,6371.0)
 
       eigenasc=trim(out_bin_file)//"asc"
       kernelasc=trim(outputs_dir)//"/kernelsasc"
