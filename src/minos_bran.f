@@ -254,7 +254,7 @@ c		include writing egfcns (mhr)
       read(iin,100) (ititle(i),i=1,20)
   100 format(20a4)
       read(iin,*) ifanis,tref,ifdeck
-      if(ifanis.eq.1) ifanis=0
+    !   if(ifanis.eq.1) ifanis=0
       if(ifdeck.eq.0) go to 1000
 c*** card deck model ***
       read(iin,*) n,nic,noc
