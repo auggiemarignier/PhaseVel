@@ -6,7 +6,6 @@ Calculates the phase velocity sensitivity kernels using eigenfunctions from [MIN
 
 Build system is configured by [cmake](https://cmake.org/).  This will download and build MINEOS (without installing the binaries), and then build the kernels scripts.
 
-From the `kernels` directory, run
 
 ```bash
 mkdir build
